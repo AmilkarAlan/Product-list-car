@@ -12,7 +12,7 @@ type Props = {
 
 const AddButton = (props: Props) => {
     return (
-        <div className='w-1/2 h-fit border rounded-4xl absolute -bottom-5 bg-(--color-rose-50) z-10 overflow-hidden'>
+        <div className='w-1/2 h-fit border rounded-4xl absolute -bottom-5 bg-white z-10 overflow-hidden'>
             {props.active ?
                 <div className="w-full h-full flex items-center justify-around py-2 px-4 bg-(--color-red)">
                     <button className='w-fit aspect-square border border-(--color-rose-50) rounded-full p-1 z-20' onClick={()=>props.decrement()}><img src={decrementIcon} alt="decrement" /></button>
