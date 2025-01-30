@@ -4,7 +4,6 @@ import cartIcon from '../assets/images/icon-add-to-cart.svg'
 type Props = {
     active: boolean
     quantity: number
-    setAddActive: (value: boolean) => void
     decrement: () => void
     increment: () => void
 
@@ -20,7 +19,7 @@ const AddButton = (props: Props) => {
                     <button className='w-fit aspect-square border border-(--color-rose-50) rounded-full p-1 z-20' onClick={()=>props.increment()}><img src={incrementIcon} alt="increment" /></button>
                     
                 </div> :
-                <div className='w-full h-full flex justify-center items-center py-2 px-4' onClick={() => props.setAddActive(true)}>
+                <div className='w-full h-full flex justify-center items-center py-2 px-4' onClick={() => props.increment()}>
                     <span><img src={cartIcon} alt="" /></span><p className='font-medium ml-2'>Add to Cart</p>
                 </div>}
 
