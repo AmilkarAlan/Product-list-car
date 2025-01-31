@@ -2,10 +2,8 @@ import { useCart } from '../AppContext'
 import empyLogo from "../assets/images/illustration-empty-cart.svg"
 import removeicon from "../assets/images/icon-remove-item.svg"
 import treeIcon from "../assets/images/icon-carbon-neutral.svg"
-type Props = {
-  setConfirm: (confirm:boolean)=> void
-}
-const Cart = (props: Props) => {
+
+const Cart = ({setConfirm}:{setConfirm:(confirm:boolean)=> void}) => {
   const { cart, removeItem } = useCart()
   const totalItems = cart.items.reduce((acc, item) => acc + item.quantity, 0)
   return (
@@ -42,7 +40,7 @@ const Cart = (props: Props) => {
           <img src={treeIcon} alt="" />
             <p>This is a <span className='font-bold'>carbon-neutral</span> delivery</p>
           </div>
-          <button className="w-full rounded-4xl bg-(--color-red) text-white py-3" onClick={()=> props.setConfirm(true)}>Confirm Order</button>
+          <button className="w-full rounded-4xl bg-(--color-red) text-white py-3" onClick={()=> setConfirm(true)}>Confirm Order</button>
         </div>
       }
     </div >

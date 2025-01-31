@@ -1,13 +1,10 @@
 import { useCart } from "../AppContext"
 import confirmIcon from "../assets/images/icon-order-confirmed.svg"
-type Props = {
-    setConfirm:(confirm:boolean) => void
-}
 
-function Confirmation(props: Props) {
+function Confirmation({setConfirm}:{setConfirm:(confirm:boolean)=> void}) {
     const { cart, clearCart } = useCart()
     const handleConfirm = () => {
-        props.setConfirm(false)
+        setConfirm(false)
         clearCart();
     }
     return (
