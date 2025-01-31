@@ -5,7 +5,7 @@ import treeIcon from "../assets/images/icon-carbon-neutral.svg"
 
 const Cart = ({setConfirm}:{setConfirm:(confirm:boolean)=> void}) => {
   const { cart, removeItem } = useCart()
-  const totalItems = cart.items.reduce((acc, item) => acc + item.quantity, 0)
+  const totalItems = cart.items.reduce((acc: number, item: { quantity: number }) => acc + item.quantity, 0)
   return (
     <div className='w-full h-full bg-white p-4 rounded-2xl mt-8 mr-8'>
       <h5 className='text-3xl font-bold mb-8 text-(--color-red) '>Your Cart ({totalItems})</h5>
@@ -17,7 +17,7 @@ const Cart = ({setConfirm}:{setConfirm:(confirm:boolean)=> void}) => {
           </div>
         ) :
         <div>
-          {cart.items.map((item) => (
+          {cart.items.map((item:{id:number, name:string, quantity:number, price:number, total:number}) => (
             <div key={item.id}>
               <div className='flex justify-between border border-t-0 border-x-0  border-b-(--color-rose-100) mb-4 pb-4 items-center'>
                 <div>

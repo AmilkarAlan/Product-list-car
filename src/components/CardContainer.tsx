@@ -1,8 +1,7 @@
 import items from "../../data.json"
 import Card from './Card'
-type Props = {}
 
-const CardContainer = (props: Props) => {
+const CardContainer = () => {
   return (
     <section>
       <h1 className='text-4xl font-bold mb-8'>Desserts</h1>

@@ -1,7 +1,7 @@
 import { useCart } from "../AppContext"
 import confirmIcon from "../assets/images/icon-order-confirmed.svg"
 
-function Confirmation({setConfirm}:{setConfirm:(confirm:boolean)=> void}) {
+function Confirmation({ setConfirm }: { setConfirm: (confirm: boolean) => void }) {
     const { cart, clearCart } = useCart()
     const handleConfirm = () => {
         setConfirm(false);
@@ -18,7 +18,7 @@ function Confirmation({setConfirm}:{setConfirm:(confirm:boolean)=> void}) {
                 </div>
                 <div className="w-full h-fit bg-(--color-rose-50) rounded-xl my-8 p-8">
                     {
-                        cart.items.map((item) => (
+                        cart.items.map((item: {id:number, image: { thumbnail: string }, name: string, quantity: number, price: number, total: number }) => (
                             <div key={item.id} className="flex  gap-4 border-b-2 border-b-(--color-rose-100) pb-4 mb-4">
                                 <img className="w-16 h-16 object-cover" src={item.image.thumbnail} alt="dessert" />
                                 <div className="w-full flex items-center justify-between">

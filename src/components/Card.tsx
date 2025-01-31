@@ -37,7 +37,7 @@ const Card = ({ id, name, price, category, image }: {
     }
 
     useEffect(() => {
-        const isInCart = cart.items.some(item => item.id === id);
+        const isInCart = cart.items.some((item: { id: number }) => item.id === id);
         if (!isInCart) {
             setQuantity(0)
             setAddActive(false)
