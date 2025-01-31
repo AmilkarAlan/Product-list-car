@@ -44,11 +44,30 @@ const Card = ({ id, name, price, category, image }: {
         }
     }, [cart.items]);
 
+    const getImageSrc = (width: number) => {
+        if (width <= 425) return image.mobile;
+        if (width < 1024) return image.tablet;
+        return image.desktop;
+    };
+
+    const [imageSrc, setImageSrc] = useState(getImageSrc(window.innerWidth));
+    useEffect(() => {
+        const mediaQuery = window.matchMedia("(max-width: 425px)");
+
+        const handleChange = (e: MediaQueryListEvent) => {
+            setImageSrc(e.matches ? image.mobile : image.desktop);
+        };
+
+        mediaQuery.addEventListener("change", handleChange);
+        return () => mediaQuery.removeEventListener("change", handleChange);
+    }, []);
+
+
     return (
-        <div className='w-fit h-fit flex flex-col items-center'>
+        <div className='w-fit h-full flex flex-col items-center'>
             <div className='w-fit flex justify-center relative'>
-                <div className="overflow-hidden rounded-t-md">
-                    <img className='object-contain' src={image.mobile} alt={name} />
+                <div className={`overflow-hidden rounded-md border-2 ${addActive ? "border-red-500" : "border-transparent"}`}>
+                    <img className='object-cover' src={imageSrc} alt={name} />
                 </div>
                 <AddButton active={addActive} quantity={quantity} decrement={decrement} increment={increment} />
             </div>

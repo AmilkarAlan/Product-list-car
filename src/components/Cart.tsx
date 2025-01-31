@@ -7,7 +7,7 @@ const Cart = ({setConfirm}:{setConfirm:(confirm:boolean)=> void}) => {
   const { cart, removeItem } = useCart()
   const totalItems = cart.items.reduce((acc, item) => acc + item.quantity, 0)
   return (
-    <div className='w-full h-full bg-white p-4 rounded-2xl mt-8'>
+    <div className='w-full h-full bg-white p-4 rounded-2xl mt-8 mr-8'>
       <h5 className='text-3xl font-bold mb-8 text-(--color-red) '>Your Cart ({totalItems})</h5>
       {cart.items.length === 0 ?
         (

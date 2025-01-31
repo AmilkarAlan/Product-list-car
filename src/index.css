@@ -34,3 +34,7 @@ body {
     font-size: 16px;
     position: relative;
 }
+
+button{
+    cursor: pointer;
+}

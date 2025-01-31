@@ -9,8 +9,8 @@ function App() {
 
   return (
     <>
-      <main className='container mx-auto p-4'>
-        <h1 className='text-4xl font-bold mb-8'>Desserts</h1>
+      <main className='container mx-auto p-4 flex flex-col gap-8 lg:flex-row'>
+        
         <CardContainer />
         <Cart setConfirm={setConfirm}/>
         {confirm ? <Confirmation setConfirm={setConfirm}/> : null}

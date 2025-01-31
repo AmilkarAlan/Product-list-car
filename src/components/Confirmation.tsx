@@ -4,12 +4,13 @@ import confirmIcon from "../assets/images/icon-order-confirmed.svg"
 function Confirmation({setConfirm}:{setConfirm:(confirm:boolean)=> void}) {
     const { cart, clearCart } = useCart()
     const handleConfirm = () => {
-        setConfirm(false)
+        setConfirm(false);
+        window.scrollTo({ top: 0, behavior: "smooth" });
         clearCart();
     }
     return (
-        <div className='fixed w-full h-full top-0 left-0 flex items-end bg-gray-700/50 z-20'>
-            <div className='w-full h-6/7 rounded-xl bg-white px-4 pt-8 overflow-scroll'>
+        <div className='fixed w-full h-full top-0 left-0 flex items-end bg-gray-700/50 z-20 lg:items-center lg:justify-center lg:py-8'>
+            <div className='w-full h-6/7 rounded-xl bg-white px-4 pt-8 overflow-y-auto lg:w-1/2 lg:h-full  '>
                 <img src={confirmIcon} alt="confirm" />
                 <div className="mt-4">
                     <h1 className="text-4xl font-bold w-1/2 mb-1">Order Confirmed</h1>
