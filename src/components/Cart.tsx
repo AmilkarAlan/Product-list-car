@@ -1,7 +1,5 @@
 import { useCart } from '../AppContext'
-import empyLogo from "../assets/images/illustration-empty-cart.svg"
-import removeicon from "../assets/images/icon-remove-item.svg"
-import treeIcon from "../assets/images/icon-carbon-neutral.svg"
+
 
 const Cart = ({setConfirm}:{setConfirm:(confirm:boolean)=> void}) => {
   const { cart, removeItem } = useCart()
@@ -12,7 +10,7 @@ const Cart = ({setConfirm}:{setConfirm:(confirm:boolean)=> void}) => {
       {cart.items.length === 0 ?
         (
           <div className='flex flex-col items-center pb-4'>
-            <img src={empyLogo} alt="" />
+            <img src="/assets/images/illustration-empty-cart.svg" alt="" />
             <p className='pt-2 text-(--color-rose-500)'>Your added items will appear here</p>
           </div>
         ) :
@@ -28,7 +26,7 @@ const Cart = ({setConfirm}:{setConfirm:(confirm:boolean)=> void}) => {
                     <p className='text-(--color-rose-500)'>${item.total.toFixed(2)}</p>
                   </div>
                 </div>
-                <button className='border rounded-full border-(--color-rose-400)  p-0.5' onClick={() => removeItem(item.id)}><img src={removeicon} alt="remove" /></button>
+                <button className='border rounded-full border-(--color-rose-400)  p-0.5' onClick={() => removeItem(item.id)}><img src="/assets/images/icon-remove-item.svg" alt="remove" /></button>
               </div>
             </div>
           ))}
@@ -37,7 +35,7 @@ const Cart = ({setConfirm}:{setConfirm:(confirm:boolean)=> void}) => {
             <h3 className='font-bold text-2xl'>${cart.total.toFixed(2)}</h3>
           </div>
           <div className='flex items-center justify-center gap-2 mb-8 bg-(--color-rose-50) p-4'>
-          <img src={treeIcon} alt="" />
+          <img src="/assets/images/icon-carbon-neutral.svg" alt="" />
             <p>This is a <span className='font-bold'>carbon-neutral</span> delivery</p>
           </div>
           <button className="w-full rounded-4xl bg-(--color-red) text-white py-3" onClick={()=> setConfirm(true)}>Confirm Order</button>
