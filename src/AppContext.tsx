@@ -46,7 +46,6 @@ const cartReducer = (state: CartState, action: any): CartState => {
                     total: updatedItems.reduce((acc, item) => acc + item.total, 0), // Actualiza total
                 };
             }
-
             const newItems = [  // nuevos items al carrito en caso de no existir ya
                 ...state.items,
                 { ...action.payload, total: action.payload.price },
@@ -60,6 +59,7 @@ const cartReducer = (state: CartState, action: any): CartState => {
                     0
                 ),
             };
+            break;
 
         case "UPDATE_QUANTITY":
             const updatedItems = state.items.map((item) => item.id === action.payload.id ? {
@@ -74,12 +74,14 @@ const cartReducer = (state: CartState, action: any): CartState => {
                 items: updatedItems,
                 total: updatedItems.reduce((acc, item) => acc + item.total, 0), // Actualiza total
             };
+            break;
 
         case "CLEAR_CART":
             return {
                 items: [],
                 total: 0,
             };
+            break;
 
         case "REMOVE_ITEM": // Nueva acción para eliminar un producto
             const filteredItems = state.items.filter((item) => item.id !== action.payload.id);
@@ -89,6 +91,7 @@ const cartReducer = (state: CartState, action: any): CartState => {
                 total: filteredItems.reduce((acc, item) => acc + item.total, 0),
             };
 
+            break;
         default:
             return state;
     }
