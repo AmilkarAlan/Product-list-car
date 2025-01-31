@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import AddButton from "./AddButton"
 import { useCart } from "../AppContext"
 
@@ -12,13 +12,13 @@ const Card = ({ id, name, price, category, image }: {
 }) => {
     const [addActive, setAddActive] = useState(false);
     const [quantity, setQuantity] = useState(0);
-    const { addToCart, updateQuantity } = useCart()
+    const { addToCart, updateQuantity, cart } = useCart()
 
     const decrement = () => {
         if (quantity <= 1) {
             setQuantity(0)
             setAddActive(false);
-            updateQuantity(id,0)
+            updateQuantity(id, 0)
             return;
         }
         setQuantity(quantity - 1);
@@ -35,6 +35,14 @@ const Card = ({ id, name, price, category, image }: {
         setQuantity(quantity + 1)
         updateQuantity(id, quantity + 1)
     }
+
+    useEffect(() => {
+        const isInCart = cart.items.some(item => item.id === id);
+        if (!isInCart) {
+            setQuantity(0)
+            setAddActive(false)
+        }
+    }, [cart.items]);
 
     return (
         <div className='w-fit h-fit flex flex-col items-center'>

@@ -6,7 +6,6 @@ type Props = {
     quantity: number
     decrement: () => void
     increment: () => void
-
 }
 
 const AddButton = (props: Props) => {

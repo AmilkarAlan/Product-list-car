@@ -1,29 +1,51 @@
 import { useCart } from '../AppContext'
 import empyLogo from "../assets/images/illustration-empty-cart.svg"
-const Cart = () => {
-  const { cart } = useCart()
+import removeicon from "../assets/images/icon-remove-item.svg"
+import treeIcon from "../assets/images/icon-carbon-neutral.svg"
+type Props = {
+  setConfirm: (confirm:boolean)=> void
+}
+const Cart = (props: Props) => {
+  const { cart, removeItem } = useCart()
+  const totalItems = cart.items.reduce((acc, item) => acc + item.quantity, 0)
   return (
-    <div className='w-full h-full bg-white p-4 rounded-2xl'>
-      <h5 className='text-3xl font-bold mb-8 text-(--color-red) '>Your Cart ({cart.items.length})</h5>
+    <div className='w-full h-full bg-white p-4 rounded-2xl mt-8'>
+      <h5 className='text-3xl font-bold mb-8 text-(--color-red) '>Your Cart ({totalItems})</h5>
       {cart.items.length === 0 ?
         (
-          <div>
+          <div className='flex flex-col items-center pb-4'>
             <img src={empyLogo} alt="" />
-            <p>Your added items will appear here</p>
+            <p className='pt-2 text-(--color-rose-500)'>Your added items will appear here</p>
           </div>
         ) :
-        cart.items.map((item) => (
-          <div key={item.id}>
-            <div>
-              <p>{item.name}</p>
-              <p><span>{item.quantity}x</span> <span>@ ${item.price}</span> <span>${item.total}</span></p>
-              <button>X</button>
+        <div>
+          {cart.items.map((item) => (
+            <div key={item.id}>
+              <div className='flex justify-between border border-t-0 border-x-0  border-b-(--color-rose-100) mb-4 pb-4 items-center'>
+                <div>
+                  <p className='text-(--color-rose-900) font-bold'>{item.name}</p>
+                  <div className='flex gap-2'>
+                    <p className='text-(--color-red) font-bold mr-2'>{item.quantity}x</p>
+                    <p className='text-(--color-rose-400)'>@ ${item.price.toFixed(2)}</p>
+                    <p className='text-(--color-rose-500)'>${item.total.toFixed(2)}</p>
+                  </div>
+                </div>
+                <button className='border rounded-full border-(--color-rose-400)  p-0.5' onClick={() => removeItem(item.id)}><img src={removeicon} alt="remove" /></button>
+              </div>
             </div>
-            <h3>Total: ${cart.total.toFixed(2)}</h3>
+          ))}
+          < div className='flex justify-between items-center mb-8'>
+            <p className='text-black'>Order Total </p>
+            <h3 className='font-bold text-2xl'>${cart.total.toFixed(2)}</h3>
           </div>
-        ))
+          <div className='flex items-center justify-center gap-2 mb-8 bg-(--color-rose-50) p-4'>
+          <img src={treeIcon} alt="" />
+            <p>This is a <span className='font-bold'>carbon-neutral</span> delivery</p>
+          </div>
+          <button className="w-full rounded-4xl bg-(--color-red) text-white py-3" onClick={()=> props.setConfirm(true)}>Confirm Order</button>
+        </div>
       }
-    </div>
+    </div >
   )
 }
 

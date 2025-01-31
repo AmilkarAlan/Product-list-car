@@ -56,16 +56,16 @@ const cartReducer = (state: CartState, action: any): CartState => {
                 ...state,
                 items: existingItem ? updatedItems : newItems,
                 total: (existingItem ? updatedItems : newItems).reduce(
-                  (acc, item) => acc + item.total,
-                  0
+                    (acc, item) => acc + item.total,
+                    0
                 ),
-              };
+            };
 
         case "UPDATE_QUANTITY":
             const updatedItems = state.items.map((item) => item.id === action.payload.id ? {
                 ...item,
                 quantity: action.payload.quantity,
-                total: action.payload.quantity * item.price,
+                total: action.payload.quantity * item.price.toFixed(2),
             }
                 : item).filter((item) => item.quantity > 0); // Elimina si cantidad es 0
 
@@ -81,6 +81,14 @@ const cartReducer = (state: CartState, action: any): CartState => {
                 total: 0,
             };
 
+        case "REMOVE_ITEM": // Nueva acción para eliminar un producto
+            const filteredItems = state.items.filter((item) => item.id !== action.payload.id);
+            return {
+                ...state,
+                items: filteredItems,
+                total: filteredItems.reduce((acc, item) => acc + item.total, 0),
+            };
+
         default:
             return state;
     }
@@ -92,14 +100,17 @@ export const CartProvider = ({ children }: { children: ReactNode }) => {
     const addToCart = (product: CartItem) => {
         dispatch({ type: "ADD_TO_CART", payload: product });
     }
-    const updateQuantity = (id: string, quantity: number) => {
+    const updateQuantity = (id: number, quantity: number) => {
         dispatch({ type: "UPDATE_QUANTITY", payload: { id, quantity } });
     };
     const clearCart = () => {
         dispatch({ type: "CLEAR_CART" });
     };
+    const removeItem = (id: number) => {
+        dispatch({ type: "REMOVE_ITEM", payload: { id } })
+    }
     return (
-        <CartContext.Provider value={{ cart: cartState, addToCart, updateQuantity, clearCart }}>
+        <CartContext.Provider value={{ cart: cartState, addToCart, updateQuantity, clearCart, removeItem }}>
             {children}
         </CartContext.Provider>
     );

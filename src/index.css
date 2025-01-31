@@ -32,4 +32,5 @@
 body {
     font-family: 'RedHatText', sans-serif;
     font-size: 16px;
+    position: relative;
 }
