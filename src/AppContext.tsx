@@ -27,61 +27,54 @@ const initialState: CartState = {
 const cartReducer = (state: CartState, action: any): CartState => {
     switch (action.type) {
         case "ADD_TO_CART":
-            const existingItem = state.items.find((item) => item.id === action.payload.id); // Buscar si el item esta en el carrito
+            const existingItem = state.items.find((item) => item.id === action.payload.id); // Buscar si el item está en el carrito
 
-            if (existingItem) { // si existe se actualizan los valores
-                const updatedItems = state.items.map((item) =>
+            let updatedItems; // Declaramos la variable fuera de la condición para que sea accesible en todo el bloque
+
+            if (existingItem) { // Si existe se actualizan los valores
+                updatedItems = state.items.map((item) =>
                     item.id === action.payload.id
                         ? {
                             ...item,
                             quantity: item.quantity + action.payload.quantity,
                             total: (item.quantity + action.payload.quantity) * item.price,
                         }
-                        : item // si no coincide deja el item como esta
+                        : item // Si no coincide, deja el item como está
                 );
-
-                return {
-                    ...state,
-                    items: updatedItems,
-                    total: updatedItems.reduce((acc, item) => acc + item.total, 0), // Actualiza total
-                };
+            } else {
+                updatedItems = [...state.items, { ...action.payload, total: action.payload.price }];
             }
-            const newItems = [  // nuevos items al carrito en caso de no existir ya
-                ...state.items,
-                { ...action.payload, total: action.payload.price },
-            ];
-
-            return { // actualiza el estado global
-                ...state,
-                items: existingItem ? updatedItems : newItems,
-                total: (existingItem ? updatedItems : newItems).reduce(
-                    (acc, item) => acc + item.total,
-                    0
-                ),
-            };
-            break;
-
-        case "UPDATE_QUANTITY":
-            const updatedItems = state.items.map((item) => item.id === action.payload.id ? {
-                ...item,
-                quantity: action.payload.quantity,
-                total: action.payload.quantity * item.price.toFixed(2),
-            }
-                : item).filter((item) => item.quantity > 0); // Elimina si cantidad es 0
 
             return {
                 ...state,
                 items: updatedItems,
                 total: updatedItems.reduce((acc, item) => acc + item.total, 0), // Actualiza total
             };
-            break;
+
+        case "UPDATE_QUANTITY":
+            const updatedItemsQuantity = state.items
+                .map((item) =>
+                    item.id === action.payload.id
+                        ? {
+                            ...item,
+                            quantity: action.payload.quantity,
+                            total: action.payload.quantity * item.price,
+                        }
+                        : item
+                )
+                .filter((item) => item.quantity > 0); // Elimina si la cantidad es 0
+
+            return {
+                ...state,
+                items: updatedItemsQuantity,
+                total: updatedItemsQuantity.reduce((acc: number, item: { total: number }) => acc + item.total, 0), // Actualiza total
+            };
 
         case "CLEAR_CART":
             return {
                 items: [],
                 total: 0,
             };
-            break;
 
         case "REMOVE_ITEM": // Nueva acción para eliminar un producto
             const filteredItems = state.items.filter((item) => item.id !== action.payload.id);
@@ -91,11 +84,11 @@ const cartReducer = (state: CartState, action: any): CartState => {
                 total: filteredItems.reduce((acc, item) => acc + item.total, 0),
             };
 
-            break;
         default:
             return state;
     }
 };
+
 const CartContext = createContext<any>(null);
 
 export const CartProvider = ({ children }: { children: ReactNode }) => {
